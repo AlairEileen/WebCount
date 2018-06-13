@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Tools.DB;
 using We7Tools.MysqlTool;
 using WXSmallAppCommon.WXTool;
@@ -21,7 +22,12 @@ namespace We7Tools.Models
             string jsonString = "";
             using (WebClient wc = new WebClient())
             {
-                jsonString = wc.DownloadString($"{We7Config.We7DataGetUrl}{uniacid}");
+               
+                var tjo = wc.DownloadStringTaskAsync($"{We7Config.We7DataGetUrl}{uniacid}");
+                if (tjo!=null)
+                {
+                    jsonString = tjo.Result;
+                }
             }
             jsonObj = (JObject)JsonConvert.DeserializeObject(jsonString);
         }
@@ -79,6 +85,16 @@ namespace We7Tools.Models
             var cfn = document.GetValue("CertFileName").ToString();
             pmc.SSLCERT_PATH = $"{MainConfig.BaseDir}{MainConfig.CertsDir}/{uniacid}/{cfn}";
         }
+
+        //public static async Task<ProcessMiniConfig> GetAllConfigTaskAsync(string uniacid)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        ProcessMiniConfig pmc = new ProcessMiniConfig();
+        //        new We7Settings(uniacid).WriteConfig(pmc);
+        //        return pmc;
+        //    });
+        //}
     }
 
 

@@ -1,0 +1,667 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.小程序详细统计);
+}
+<h1 id="appName"></h1>
+@*<div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2">
+            选择查看统计类别
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2">
+            <select id="countType"></select>
+
+        </div>
+    </div>*@
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>概况趋势</h2>
+    <hr />
+    <div id="d0_count_container" style="height: 200px;"></div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>访问趋势</h2>
+    <hr />
+    <div id="d1_count_container" style="height: 600px;"></div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+
+    <h2>访问分布</h2>
+    <hr />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d21_count_container" style="height: 400px;"></div>
+
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d22_count_container" style="height: 400px;"></div>
+
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d23_count_container" style="height: 400px;"></div>
+
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+
+    <h2>访问留存</h2>
+    <hr />
+    <div id="d3_count_container" style="height: 600px;"></div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+
+    <h2>访问页面</h2>
+    <hr />
+    <div id="d4_count_container" style="height: 600px;"></div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+
+    <h2>用户画像——省份</h2>
+    <hr />
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_1_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_1_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_1_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>用户画像——城市</h2>
+    <hr />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_2_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_2_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_2_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>用户画像——性别</h2>
+    <hr />
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_3_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_3_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_3_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>用户画像——终端类型</h2>
+    <hr />
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_4_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_4_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_4_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>用户画像——机型</h2>
+    <hr />
+    <div class="row">
+
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_5_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_5_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_5_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h2>用户画像——年龄</h2>
+    <hr />
+    <div class="row">
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d5_6_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d51_6_count_container" style="height: 600px;"></div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <div id="d50_6_count_container" style="height: 600px;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden">
+    <select>
+        <option id="countTypeOption"></option>
+    </select>
+</div>
+
+@*<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/simplex.js"></script>*@
+
+<script>
+    var b_iframe = window.parent.parent.document.getElementById("myiframe");
+    function changeSize() {
+        var size = $(b_iframe).contents().find("body").height() + 60;
+        $(b_iframe).height(size);
+    }
+
+    window.onload = function () {
+        initData();
+    }
+    var countData;
+    function initData() {
+        var uniacid = getUrlVar("uniacid");
+        $.getJSON(baseUrl + "AllCount/GetMiniApptCounts?uniacid=" + uniacid, function (data, status) {
+            if (data.JsonData) {
+                $("#appName").html(data.JsonData.AppName);
+                countData = data.JsonData.CountDataList;
+                var sele = $("#countType");
+                sele.html("");
+                $.each(data.JsonData.CountDataList, function (i, item) {
+                    var row = $("#countTypeOption").clone();
+                    row.val(item.DataType);
+                    row.html(item.WeChatCountTypeName);
+                    row.appendTo(sele);
+                    initView(item.DataType, item.CountData);
+
+                });
+            }
+            changeSize();
+        });
+    }
+    function initView(t, d) {
+        if (!d) {
+            return;
+        }
+        var jsonData = JSON.parse(d);
+        switch (t) {
+            case 0:
+                initCount(jsonData);
+                break;
+            case 1:
+                initCountTrend(jsonData, "昨天趋势");
+                break;
+            case 10:
+                initCountTrend(jsonData, "上月趋势");
+                break;
+            case 11:
+                initCountTrend(jsonData, "上周趋势");
+                break;
+            case 12:
+                initCountTrend(jsonData, "二周前趋势");
+                break;
+            case 13:
+                initCountTrend(jsonData, "三周前趋势");
+                break;
+            case 14:
+                initCountTrend(jsonData, "四周前趋势");
+                break;
+            case 2:
+                initCountDistribute(jsonData);
+                break;
+            case 3:
+                initCountRemain(jsonData, "昨天留存");
+                break;
+            case 30:
+                initCountRemain(jsonData, "上月留存");
+                break;
+            case 31:
+                initCountRemain(jsonData, "上周留存");
+                break;
+            case 32:
+                initCountRemain(jsonData, "二周前留存");
+                break;
+            case 33:
+                initCountRemain(jsonData, "三周前留存");
+                break;
+            case 34:
+                initCountRemain(jsonData, "四周前留存");
+                break;
+            case 4:
+                initCountPage(jsonData);
+                break;
+            case 5:
+                if (jsonData.visit_uv_new && jsonData.visit_uv) {
+                    initCountPortarit("5", "昨天", jsonData);
+                }
+                break;
+            case 51:
+                if (jsonData.visit_uv_new && jsonData.visit_uv) {
+                    initCountPortarit("51", "上周", jsonData);
+                }
+                break;
+            case 50:
+                if (jsonData.visit_uv_new && jsonData.visit_uv) {
+                    initCountPortarit("50", "上月", jsonData);
+                }
+                break;
+
+            default:
+        }
+
+    }
+    function convertProtaritData(oldPro, newPro, newName, newValue) {
+        var ids = [];
+
+        for (var i = 0; i < newPro.length; i++) {
+            var n1 = newPro[i].name;
+            var id = newPro[i].id;
+            var aa = { newU: newPro[i].value, oldU: 0 };
+            for (var j = 0; j < oldPro.length; j++) {
+                if (oldPro[j].id == id) {
+                    aa.oldU = (oldPro[j].value);
+                    newName.push(n1);
+                    ids.push(id);
+                    newValue.push({ list: [aa] });
+                    break;
+                }
+            }
+        }
+        for (var i = 0; i < newPro.length; i++) {
+            var b = false;
+            var n1 = newPro[i].name;
+            var id = newPro[i].id;
+            var aa = { newU: newPro[i].value, oldU: 0 };
+            for (var j = 0; j < ids.length; j++) {
+                if (ids[j] == id) {
+                    b = true;
+                    break;
+                }
+            }
+            if (!b) {
+                newName.push(n1);
+                newValue.push({ list: [aa] });
+            }
+        }
+        for (var i = 0; i < oldPro.length; i++) {
+            var b = false;
+            var n1 = oldPro[i].name;
+            var id = oldPro[i].id;
+            var aa = { newU: 0, oldU: oldPro[i].value };
+            for (var j = 0; j < ids.length; j++) {
+                if (ids[j] == id) {
+                    b = true;
+                    break;
+                }
+            }
+            if (!b) {
+                newName.push(n1);
+                newValue.push({ list: [aa] });
+            }
+        }
+
+    }
+
+    var portaritTitleArray = ["省份", "城市", "性别", "终端类型", "机型", "年龄"];
+    var portaritDataProArray = ["province", "city", "genders", "platforms", "devices", "ages"];
+
+    function initCountPortarit(eleHeader, titleHeader, jsonData) {
+        for (var i = 0; i < portaritTitleArray.length; i++) {
+            var newName = [];
+            var newValue = [];
+            convertProtaritData(jsonData.visit_uv[portaritDataProArray[i]], jsonData.visit_uv_new[portaritDataProArray[i]], newName, newValue);
+            var ele = "d" + eleHeader + "_" + (i + 1) + "_count_container";
+            var title = titleHeader + "用户" + portaritTitleArray[i];
+            var legendData = ['新用户', '活跃用户'];
+            var seriesData = newValue;
+            var yAxisData = newName;
+            initCountView(ele, title, legendData, yAxisData, seriesData);
+        }
+    }
+
+    function convertSeriesData(listItem, legendDataParams, legendData, seriesData) {
+        var newUv = [];
+        for (var k = 0; k < legendData.length; k++) {
+            var newUvValue = 0;
+            for (var j = 0; j < listItem.length; j++) {
+                var item = listItem[j];
+                if (item.key == legendDataParams[k]) {
+                    newUvValue = item.value;
+                }
+            }
+            newUv.push(newUvValue);
+        }
+        for (var k = 0; k < seriesData.length; k++) {
+            seriesData[k].data.push(newUv[k]);
+        }
+    }
+    var remainType = new Array();
+    var remainData = new Array();
+    function initCountRemain(jsonData, t) {
+        remainType.push(t);
+        remainData.push(jsonData);
+        if (remainType.length != 6) {
+            return;
+        }
+        var ele = "d3_count_container";
+        var title = "小程序访问留存统计";
+        var legendDataParams = [0, 1, 2, 3, 4, 5, 6, 7, 14, 30];
+        var legendData = [];
+        var seriesData = [];
+        for (var i = 0; i < legendDataParams.length; i++) {
+            if (i == 0) {
+                legendData.push('当（天/周/月）');
+            } else {
+                legendData.push(legendDataParams[i] + '（天/周/月）后');
+            }
+            seriesData.push({
+                name: legendData[i],
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                },
+                data: []
+            });
+        }
+        var yAxisData = [];
+        for (var i = 0; i < remainType.length; i++) {
+            yAxisData.push(remainType[i] + "——新增用户留存");
+            yAxisData.push(remainType[i] + "——活跃用户留存");
+            var listItem = remainData[i].visit_uv_new;
+            convertSeriesData(listItem, legendDataParams, legendData, seriesData);
+            convertSeriesData(remainData[i].visit_uv, legendDataParams, legendData, seriesData);
+
+        }
+
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: legendData
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: yAxisData
+            },
+            series: seriesData
+        };
+
+        initCountCustomerView(ele, title, option);
+    }
+    function initCountPage(jsonData) {
+        var yAxisData0 = new Array();
+        var seriesData0 = [];
+        for (var i = 0; i < jsonData.list.length; i++) {
+            var item_listItem = jsonData.list[i];
+            var llist = { list: [] };
+            var a = {};
+            for (var item in item_listItem) {
+                if (item == "page_path") {
+                    yAxisData0.push(item_listItem[item]);
+                } else {
+                    a["" + item] = item_listItem[item];
+                }
+            }
+            llist.list.push(a);
+            seriesData0.push(llist);
+        }
+        var ele = "d4_count_container";
+        var title = "访问页面";
+        var legendData = ['访问次数', '访问人数', '次均停留时长', '进入页次数', '退出页次数', '转发次数', '转发人数'];
+        var seriesData = seriesData0;
+        var yAxisData = yAxisData0;
+        initCountView(ele, title, legendData, yAxisData, seriesData);
+    }
+    function initCountDistribute(jsonData) {
+        var access_source_session_cntArray = {
+            1: "小程序历史列表    ",
+            2: "搜索             ",
+            3: "会话             ",
+            4: "二维码           ",
+            5: "公众号主页        ",
+            6: "聊天顶部         ",
+            7: "系统桌面         ",
+            8: "小程序主页        ",
+            9: "附近的小程序      ",
+            10: "其他            ",
+            11: "模板消息        ",
+            12: "客服消息        ",
+            13: "公众号菜单       ",
+            14: "APP分享         ",
+            15: "支付完成页       ",
+            16: "长按识别二维码   ",
+            17: "相册选取二维码   ",
+            18: "公众号文章       ",
+            19: "钱包            ",
+            20: "卡包            ",
+            21: "小程序内卡券     ",
+            22: "其他小程序       ",
+            23: "其他小程序返回   ",
+            24: "卡券适用门店列表 ",
+            25: "搜索框快捷入口   ",
+            26: "小程序客服消息   ",
+            27: "公众号下发       ",
+            28: "会话左下角菜单   ",
+            29: "小程序任务栏     ",
+            30: "长按小程序菜单圆点",
+            31: "连wifi成功页    ",
+            32: "城市服务        "
+        };
+
+
+        var access_staytime_infoArray = {
+            1: "0 - 2s ",
+            2: "3-5s   ",
+            3: "6-10s  ",
+            4: "11-20s ",
+            5: "20-30s ",
+            6: "30-50s ",
+            7: "50-100s",
+            8: "> 100s "
+
+        };
+        var access_depth_infoArray = {
+            1: "1页   ",
+            2: "2页   ",
+            3: "3页   ",
+            4: "4页   ",
+            5: "5页   ",
+            6: "6-10页",
+            7: "> 10页"
+        };
+        var dataMap = new Map();
+        for (var i = 0; i < jsonData.list.length; i++) {
+            var listItem = jsonData.list[i];
+            var keyData;
+            switch (listItem.index) {
+                case "access_source_session_cnt":
+                    keyData = access_source_session_cntArray;
+                    break;
+                case "access_staytime_info":
+                    keyData = access_staytime_infoArray;
+                    break;
+                case "access_depth_info":
+                    keyData = access_depth_infoArray;
+                    break;
+            }
+            var yAxisData0 = new Array();
+            var seriesData0 = [];
+            for (var j = 0; j < listItem.item_list.length; j++) {
+                var item_listItem = listItem.item_list[j];
+                yAxisData0.push(keyData[item_listItem.key]);
+                seriesData0.push({
+                    list: [{ value: item_listItem.value }]
+                });
+            }
+            dataMap.set(listItem.index, { y: yAxisData0, s: seriesData0 });
+        }
+
+
+
+
+        var ele = "d21_count_container";
+
+        var title = "访问来源分布";
+        var legendData = ['数量'];
+        var seriesData = dataMap.get("access_source_session_cnt").s;
+        var yAxisData = dataMap.get("access_source_session_cnt").y;
+        initCountView(ele, title, legendData, yAxisData, seriesData);
+
+        var ele2 = "d22_count_container";
+        var title2 = "访问时长分布";
+        var legendData2 = ['数量'];
+        var seriesData2 = dataMap.get("access_staytime_info").s;
+        var yAxisData2 = dataMap.get("access_staytime_info").y;
+        initCountView(ele2, title2, legendData2, yAxisData2, seriesData2);
+
+        var ele3 = "d23_count_container";
+        var title3 = "访问深度的分布";
+        var legendData3 = ['数量'];
+        var seriesData3 = dataMap.get("access_depth_info").s;
+        var yAxisData3 = dataMap.get("access_depth_info").y;
+        initCountView(ele3, title3, legendData3, yAxisData3, seriesData3);
+
+
+    }
+    function initCount(jsonData) {
+        var ele = "d0_count_container";
+        var title = "小程序概况统计";
+        var legendData = ['累计用户数', '转发次数', '转发人数'];
+        var seriesData = [jsonData];
+        var yAxisData = ["昨天"];
+        initCountView(ele, title, legendData, yAxisData, seriesData);
+    }
+    var trendType = new Array();
+    var trendData = new Array();
+    function initCountTrend(jsonData, t) {
+        trendType.push(t);
+        trendData.push(jsonData);
+        if (trendType.length != 6) {
+            return;
+        }
+        var ele = "d1_count_container";
+        var title = "小程序访问趋势统计";
+        var legendData = ['打开次数', '访问次数', '访问人数', '新用户数', '人均停留时长(秒)', '次均停留时长(秒)', '平均访问深度'];
+        var seriesData = trendData;
+        var yAxisData = trendType;
+        initCountView(ele, title, legendData, yAxisData, seriesData);
+
+    }
+    function initCountView(ele, title, legendData, yAxisData, seriesData) {
+        var dom = document.getElementById(ele);
+        var myChart = echarts.init(dom);
+        var option = {
+            title: {
+                text: title,
+                subtext: '周统计(每日10更新)'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: legendData
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: yAxisData
+            },
+            series: new Array()
+        };
+        for (var i = 0; i < legendData.length; i++) {
+            var dd = {
+                name: legendData[i],
+                type: 'bar',
+                data: new Array()
+            };
+            for (var j = 0; j < yAxisData.length; j++) {
+                var dd2 = seriesData[j].list[0];
+                var jj = 0;
+                for (var item in dd2) {
+                    if (item != "ref_date") {
+                        if (jj == i) {
+                            dd.data.push(dd2[item]);
+                        }
+                        jj++;
+                    }
+                }
+            }
+            option.series.push(dd);
+        }
+
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+    }
+
+    function initCountCustomerView(ele, title, option) {
+        var dom = document.getElementById(ele);
+        var myChart = echarts.init(dom);
+        var app = {};
+        app.title = title;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    }
+</script>

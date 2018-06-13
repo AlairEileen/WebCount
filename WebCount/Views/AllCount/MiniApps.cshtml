@@ -1,0 +1,251 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.商户统计);
+    string baseUrl = Context.Request.PathBase + "/";
+}
+<br />
+<div class="row">
+    <h1 id="merchantNameIframe">商户名称</h1>
+    <h3>商户总体概况</h3>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div style="background-image:url('@(baseUrl)images/c_h_bg1.png');background-repeat:no-repeat; width:322px;height:132px;padding-top:34px;padding-left:14px;">
+                <img class="col-md-4 col-lg-4 col-sm-4 col-xs-4" src="~/images/c_h_ico1.png" />
+                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 row" style="margin-top:1px;">
+                    <p class="textWhite text-center col-md-11 textSizeTitle">累计用户数</p>
+                    <p class="textWhite text-center col-md-11 textSizeTitle" id="c_a_user">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="center-block" style="background-image:url('@(baseUrl)images/c_h_bg2.png');background-repeat:no-repeat; width:322px;height:132px;padding-top:34px;padding-left:14px;">
+                <img class="col-md-4 col-lg-4 col-sm-4 col-xs-4" src="~/images/c_h_ico2.png" />
+                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 row" style="margin-top:1px;">
+                    <p class="textWhite text-center col-md-11 textSizeTitle">转发次数</p>
+                    <p class="textWhite text-center col-md-11 textSizeTitle" id="c_a_share">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="pull-right" style="background-image:url('@(baseUrl)images/c_h_bg3.png');background-repeat:no-repeat; width:322px;height:132px;padding-top:34px;padding-left:14px;">
+                <img class="col-md-4 col-lg-4 col-sm-4 col-xs-4" src="~/images/c_h_ico3.png" />
+                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 row" style="margin-top:1px;">
+                    <p class="textWhite text-center col-md-11 textSizeTitle">转发人数</p>
+                    <p class="textWhite text-center col-md-11 textSizeTitle" id="c_a_share_user">0</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+<div id="merchantCountContainer" class="hidden">
+    <div class="row blockCount">
+        <h3>累计用户数</h3>
+        <div id="merchant_1_count_container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height: 450px;"></div>
+    </div>
+    <br class="clearBoth" />
+    <div class="row blockCount">
+        <h3>转发次数</h3>
+        <div id="merchant_2_count_container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height: 450px;"></div>
+    </div>
+    <br class="clearBoth" />
+    <div class="row blockCount">
+        <h3>转发人数</h3>
+        <div id="merchant_3_count_container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height: 450px;"></div>
+    </div>
+</div>
+<br />
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h3>商户所有小程序</h3>
+    <div id="container" class="row ">
+
+    </div>
+</div>
+<br />
+<ul class="pager">
+    <li><a href="#" onclick="goPage(-pageIndex)">首页</a></li>
+    <li id="prePage"><a href="#" onclick="goPage(-1)">上一页</a></li>
+    <li><input type="number" id="pageNumber" onkeydown="goPageNum(this)" class="form-control" style="width:80px;display:inline;text-align:center;" /></li>
+    <li id="nextPage"><a href="#" style="color:#fd947f" onclick="goPage(1)">下一页</a></li>
+    <li><a href="#" style="color:#fd947f" onclick="goPage(pageSum - pageIndex)">尾页</a></li>
+    <li><span>共<span style="color:#fd947f" id="sum">343</span>页</span></li>
+</ul>
+<br />
+
+
+
+<div class="hidden">
+    <input id="appName" value='@ViewData["appName"]' />
+    <input id="merchantID" value='@ViewData["merchantID"]' />
+    <div id="merchantItem" style="margin-bottom:20px;" class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <a class="btn btn-info" style="max-width:200px"> fdsfadfs</a>
+    </div>
+</div>
+
+@*<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/simplex.js"></script>*@
+
+<script>
+
+    window.onload = function () {
+        initData();
+    }
+    var pageIndex = 0, pageSum = 0;
+    var queryText = "";
+    var merchantID;
+    function initData() {
+        queryText = $("#queryText").val();
+
+        merchantID = getUrlVar("merchantID");
+        if (merchantID) {
+            showCountMerchantAppView();
+        }
+        pageIndex = 0;
+        goPage(0);
+    }
+    function showCountMerchantAppView() {
+        $("#merchantCountContainer").removeClass("hidden");
+        $("#merchantNameIframe").html("商户：" + decodeURIComponent(getUrlVar("merchantName")));
+        $.getJSON(baseUrl + "AllCount/GetMerchantCounts?merchantID=" + merchantID, function (data, status) {
+            initOption(data.JsonData);
+        });
+
+    }
+    function goPage(num) {
+        pageIndex += num;
+        var objParam;
+        if (merchantID) {
+            objParam = { pageIndex: pageIndex, merchantID: merchantID };
+        } else {
+            objParam = { pageIndex: pageIndex, appName: queryText };
+        }
+
+        $.getJSON(baseUrl + "AllCount/QueryMiniApps", objParam, function (data, status) {
+            var container = $("#container");
+            container.html("");
+            setPageFooter(data.JsonData);
+            $.each(data.JsonData.PageData, function (i, item) {
+                var row = $("#merchantItem").clone();
+                var a = row.find("a");
+                a.attr("target", "_blank");
+                a.attr("href", baseUrl + "AllCount/DetailCounts?uniacid=" + item.uniacid);
+                a.html(item.AppName);
+                a.click(goApps(item.uniacid));
+                row.appendTo(container);
+            });
+        });
+    }
+    function setPageFooter(JsonData) {
+        $("#pageNumber").val(pageIndex + 1);
+        pageSum = JsonData.PageSum;
+        $("#sum").html(pageSum);
+        var prePage = $("#prePage");
+        var nextPage = $("#nextPage");
+        if (pageIndex == 0) {
+            prePage.addClass("disabled");
+            prePage.find("a").removeAttr("onclick");
+        } else {
+            prePage.removeClass("disabled");
+            prePage.find("a").attr("onclick", " goPage(-1)");
+        }
+
+        if (pageIndex == pageSum) {
+            nextPage.addClass("disabled");
+            nextPage.find("a").removeAttr("onclick");
+        } else {
+            nextPage.removeClass("disabled");
+            nextPage.find("a").attr("onclick", " goPage(1)");
+        }
+    }
+    function goApps(merchantID) {
+
+
+    }
+
+
+    function initOption(baseData) {
+
+        var week = new Date().getDay();
+        week = week == 0 ? 7 : week;
+        var arrayR = new Array();
+        var arrayC = new Array();
+        var arrayH = new Array();
+        var length = 0;
+        $.each(baseData, function (i, item) {
+            length++;
+            arrayH.push(item.AccountSum);
+            arrayC.push(item.ShareSum);
+            arrayR.push(item.ShareAccountSum);
+        });
+
+
+        $("#c_a_user").html(arrayH[arrayH.length - 1]);
+        $("#c_a_share").html(arrayC[arrayC.length - 1]);
+        $("#c_a_share_user").html(arrayR[arrayR.length - 1]);
+
+
+        var weekText = [];
+        if (length != 0)
+            for (var i = 29; i >= 0; i--) {
+                if (i >= length) {
+                    arrayH.unshift(arrayH[0]);
+                    arrayC.unshift(arrayC[0]);
+                    arrayR.unshift(arrayR[0]);
+                }
+                weekText.push(i == 0 ? "昨天" : i + "天前");
+            }
+
+        showCountView("merchant_1_count_container", weekText, arrayH);
+        showCountView("merchant_2_count_container", weekText, arrayC);
+        showCountView("merchant_3_count_container", weekText, arrayR);
+    }
+
+    function showCountView(ele, xAxisData, seriesData) {
+        var dom = document.getElementById(ele);
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option = {
+            tooltip: {
+                show: true
+            },
+            xAxis: {
+                type: 'category',
+                data: xAxisData
+            },
+            yAxis: {
+                type: 'value',
+                scale: true
+            },
+            series: [{
+                data: seriesData,
+                type: 'line',
+                smooth: true
+            }]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    }
+    function goPageNum(obj) {
+
+        if (event.keyCode == 13) {
+            var num = parseInt($(obj).val());
+            num--;
+            if (num >= 0 && num < pageSum) {
+                num -= pageIndex;
+                goPage(num);
+            }
+        }
+
+    }
+</script>

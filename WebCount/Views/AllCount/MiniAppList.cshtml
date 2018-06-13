@@ -1,0 +1,110 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.小程序列表);
+}
+
+<br />
+
+<div class="blockCount row" style="padding-bottom:40px;">
+    <h3>小程序列表</h3>
+    <div id="container" class="row ">
+
+    </div>
+</div>
+<br />
+<ul class="pager">
+    <li><a href="#" onclick="goPage(-pageIndex)">首页</a></li>
+    <li id="prePage"><a href="#" onclick="goPage(-1)">上一页</a></li>
+    <li><input type="number" id="pageNumber" onkeydown="goPageNum(this)" class="form-control" style="width:80px;display:inline;text-align:center;" /></li>
+    <li id="nextPage"><a href="#" style="color:#fd947f" onclick="goPage(1)">下一页</a></li>
+    <li><a href="#" style="color:#fd947f" onclick="goPage(pageSum - pageIndex)">尾页</a></li>
+    <li><span>共<span style="color:#fd947f" id="sum">343</span>页</span></li>
+</ul>
+<br />
+<div class="hidden">
+    <div id="merchantItem" style="margin-bottom:20px;" class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <a class="btn btn-info" style="max-width:200px"> fdsfadfs</a>
+    </div>
+</div>
+<script>
+
+    window.onload = function () {
+        initData();
+    }
+    var pageIndex = 0, pageSum = 0;
+    var queryText = "";
+    var merchantID;
+    function initData() {
+        var text = decodeURIComponent(getUrlVar("queryText"));
+        if (text !== 'undefined') {
+            queryText = text;
+            $("#queryText").val(decodeURIComponent(text));
+        }
+        //merchantID = getUrlVar("merchantID");
+
+        pageIndex = 0;
+        goPage(0);
+    }
+
+    function goPage(num) {
+        pageIndex += num;
+        var objParam;
+        objParam = { pageIndex: pageIndex, appName: queryText };
+        $.getJSON(baseUrl + "AllCount/QueryMiniApps", objParam, function (data, status) {
+            var container = $("#container");
+            container.html("");
+            setPageFooter(data.JsonData);
+            $.each(data.JsonData.PageData, function (i, item) {
+                var row = $("#merchantItem").clone();
+                var a = row.find("a");
+                a.attr("target", "_blank");
+                a.attr("href", baseUrl + "AllCount/DetailCounts?uniacid=" + item.uniacid);
+                a.html(item.AppName);
+                a.click(goApps(item.uniacid));
+                row.appendTo(container);
+            });
+        });
+    }
+    function setPageFooter(JsonData) {
+        $("#pageNumber").val(pageIndex + 1);
+        pageSum = JsonData.PageSum;
+        $("#sum").html(pageSum);
+        var prePage = $("#prePage");
+        var nextPage = $("#nextPage");
+        if (pageIndex == 0) {
+            prePage.addClass("disabled");
+            prePage.find("a").removeAttr("onclick");
+        } else {
+            prePage.removeClass("disabled");
+            prePage.find("a").attr("onclick", " goPage(-1)");
+        }
+
+        if (pageIndex == pageSum) {
+            nextPage.addClass("disabled");
+            nextPage.find("a").removeAttr("onclick");
+        } else {
+            nextPage.removeClass("disabled");
+            nextPage.find("a").attr("onclick", " goPage(1)");
+        }
+    }
+    function goApps(merchantID) {
+
+
+    }
+
+
+
+    function goPageNum(obj) {
+
+        if (event.keyCode == 13) {
+            var num = parseInt($(obj).val());
+            num--;
+            if (num >= 0 && num < pageSum) {
+                num -= pageIndex;
+                goPage(num);
+            }
+        }
+
+    }
+</script>

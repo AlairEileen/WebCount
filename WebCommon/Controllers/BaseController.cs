@@ -41,24 +41,53 @@ namespace WebCommon.Controllers
             base.OnActionExecuting(context);
         }
 
-        protected IActionResult DoJsonObjData<M>(Action<string, M> doData)
+        protected IActionResult DoJsonObjData<M>(Action<string, M> doData, RequestClientType requestClientType = RequestClientType.Web)
         {
             try
             {
                 string json = new StreamReader(Request.Body).ReadToEnd();
                 M qiNiuModel = JsonConvert.DeserializeObject<M>(json);
-                doData(HttpContext.Session.GetUniacID(), qiNiuModel);
+                doData(GetUiniacID(requestClientType), qiNiuModel);
                 return this.JsonSuccessStatus();
             }
             catch (ExceptionModel em)
             {
                 return this.JsonOtherStatus(em.ExceptionParam);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                e.Save();
                 return this.JsonErrorStatus();
             }
         }
+
+        private string GetUiniacID(RequestClientType requestClientType)
+        {
+            var uniacid = "";
+            switch (requestClientType)
+            {
+                case RequestClientType.Api:
+                    uniacid = UniacID;
+                    break;
+                case RequestClientType.Web:
+                    uniacid = GetSessionUniacID();
+                    break;
+                case RequestClientType.Both:
+                    uniacid = UniacID ?? GetSessionUniacID();
+                    break;
+                case RequestClientType.None:
+                    return null;
+                default:
+                    uniacid = null;
+                    break;
+            }
+            if (string.IsNullOrEmpty(uniacid))
+            {
+                throw new ExceptionModel { ExceptionParam = Tools.Response.ResponseStatus.uniacid为空 };
+            }
+            return uniacid;
+        }
+
         /// <summary>
         /// 获取session中的uniacid
         /// </summary>
@@ -155,7 +184,7 @@ namespace WebCommon.Controllers
 
         protected enum RequestClientType
         {
-            Api = 0, Web = 1, Both = 3
+            Api = 0, Web = 1, Both = 3, None = 4
         }
     }
 }

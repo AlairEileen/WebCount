@@ -18,7 +18,7 @@ namespace ConfigData
         /// 微擎相关
         /// </summary>
         public const string We7ProjName = "pindie_study";
-        public const string We7Domain = "https://"+(MainConfig.IsDev?"dev":"xcx")+".360yingketong.com/addons/";
+        public const string We7Domain = "https://"+("xcx")+".360yingketong.com/addons/";
         public const string We7DataGetUrl = We7Domain + We7ProjName + "/db_select.php?key=5a5edafbed06c11a1829a4f6&uniacid=";
 
         /// <summary>

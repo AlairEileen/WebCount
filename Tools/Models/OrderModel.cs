@@ -29,12 +29,7 @@ namespace Tools.Models
         [JsonConverter(typeof(DateConverterEndMinute))]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime PaidTime { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [JsonConverter(typeof(DateConverterEndMinute))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime CreateTime { get; set; }
+       
         /// <summary>
         /// 金额
         /// </summary>

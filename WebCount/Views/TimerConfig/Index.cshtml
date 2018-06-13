@@ -1,0 +1,120 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.系统管理);
+}
+<h1>刷新任务设置</h1>
+<div class="jumbotron">
+    <input id="mID" class="hidden" />
+    <div class="row">
+        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">微擎数据刷新时间</div>
+        <div class="col-lg-1 col-md-3 col-sm-3 col-xs-3"><input id="w7h" class="form-control " type="number" placeholder="小时" /> </div>
+
+        <div class="col-lg-1 col-md-3 col-sm-3 col-xs-3">
+            <input type="number" id="w7m" class="form-control " placeholder="分钟" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">微信数据刷新时间</div>
+        <div class="col-lg-1 col-md-3 col-sm-3 col-xs-3"><input id="wch" type="number" class="form-control " placeholder="小时" /> </div>
+
+        <div class="col-lg-1 col-md-3 col-sm-3 col-xs-3">
+            <input type="number" class="form-control " id="wcm" placeholder="分钟" />
+        </div>
+    </div>
+   
+    <br />
+    <br />
+    <a class="btn btn-primary" onclick="saveConfig()">保存设置</a>
+    <br />
+    <br />
+    <a class="pull-right btn btn-success" onclick="saveWcNow()">马上刷新微信数据</a>
+    <br class="clearfix" />
+    <br />
+    <br />
+    <br />
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>刷新类型</td>
+                    <td>最后刷新开始时间</td>
+                    <td>最后刷新结束时间</td>
+                    <td>历时（秒）</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>商户数据</td>
+                    <td id="mST">最后刷新开始时间</td>
+                    <td id="mET">最后刷新结束时间</td>
+                    <td id="mTL">历时（秒）</td>
+                </tr>
+                <tr>
+                    <td>小程序数据</td>
+                    <td id="aST">最后刷新开始时间</td>
+                    <td id="aET">最后刷新结束时间</td>
+                    <td id="aTL">历时（秒）</td>
+                </tr>
+                <tr>
+                    <td>微信统计</td>
+                    <td id="wST">最后刷新开始时间</td>
+                    <td id="wET">最后刷新结束时间</td>
+                    <td id="wTL">历时（秒）</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        initConfigData();
+
+    };
+    function initConfigData() {
+        $.getJSON(baseUrl + "TimerConfig/GetConfig", function (data, status) {
+            $("#mID").val(data.JsonData.ID);
+            $("#w7h").val(data.JsonData.RefreshMerchantStartHour);
+            $("#w7m").val(data.JsonData.RefreshMerchantStartMinutes);
+            $("#wch").val(data.JsonData.RefreshWeChatCountStartHour);
+            $("#wcm").val(data.JsonData.RefreshWeChatCountStartMinutes);
+
+            $("#mST").html(data.JsonData.MerchantRefreshDate.LastRefreshStartTime);
+            $("#mET").html(data.JsonData.MerchantRefreshDate.LastRefreshEndTime);
+            $("#mTL").html(data.JsonData.MerchantRefreshDate.RefreshUseSeconds);
+                      
+            $("#aST").html(data.JsonData.MiniAppRefreshDate.LastRefreshStartTime);
+            $("#aET").html(data.JsonData.MiniAppRefreshDate.LastRefreshEndTime);
+            $("#aTL").html(data.JsonData.MiniAppRefreshDate.RefreshUseSeconds);
+                      
+            $("#wST").html(data.JsonData.WeChatCountRefreshDate.LastRefreshStartTime);
+            $("#wET").html(data.JsonData.WeChatCountRefreshDate.LastRefreshEndTime);
+            $("#wTL").html(data.JsonData.WeChatCountRefreshDate.RefreshUseSeconds);
+        });
+
+    }
+    function saveConfig() {
+        var obj = {
+            ID: $("#mID").val(),
+            RefreshMerchantStartHour: $("#w7h").val(),
+            RefreshMerchantStartMinutes: $("#w7m").val(),
+            RefreshWeChatCountStartHour: $("#wch").val(),
+            RefreshWeChatCountStartMinutes: $("#wcm").val()
+        };
+        doJsonPost("TimerConfig/SetConfig", obj, "操作");
+    }
+    function saveWcNow() {
+        var d = new Date();
+        var obj = {
+            ID: $("#mID").val(),
+            RefreshMerchantStartHour: $("#w7h").val(),
+            RefreshMerchantStartMinutes: $("#w7m").val(),
+            RefreshWeChatCountStartHour: d.getHours(),
+            RefreshWeChatCountStartMinutes: (d.getMinutes() + 2)
+        };
+        doJsonPost("TimerConfig/SetConfig", obj, "操作");
+
+    }
+  
+</script>

@@ -1,0 +1,108 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.商户列表);
+}
+<div style="background-color:white;">
+    <h3 style="padding:20px 0 0 35px">商户列表</h3>
+    <div class="table-responsive" style="padding:35px 20px 25px 35px">
+        <table class="table table-bordered">
+            <thead>
+                <tr style="background-color:#e7e7e7; color:#67bfff">
+                    <td>昵称</td>
+                    <td>小程序</td>
+                    <td class="text-center">开通时间</td>
+                    <td class="text-center">详情</td>
+                </tr>
+            </thead>
+            <tbody id="merchantListContainer"></tbody>
+        </table>
+    </div>
+</div>
+<table class="hidden">
+    <tr id="merchantListItem">
+        <td id="m_name">分厘卡圣诞节法律</td>
+        <td id="m_num">放松多了几分</td>
+        <td id="m_date" class="text-center">2019-32-3 43:32:33</td>
+        <td class="text-center"><a class="btn btn-link" id="m_link" style="color:#67bfff;padding:0;">详情</a></td>
+    </tr>
+</table>
+<ul class="pager">
+    <li><a href="#" onclick="goPage(-pageIndex)">首页</a></li>
+    <li id="prePage"><a href="#" onclick="goPage(-1)">上一页</a></li>
+    <li><input type="number" id="pageNumber" onkeydown="goPageNum(this)" class="form-control" style="width:80px;display:inline;text-align:center;" /></li>
+    <li id="nextPage"><a href="#" style="color:#fd947f" onclick="goPage(1)">下一页</a></li>
+    <li><a href="#" style="color:#fd947f" onclick="goPage(pageSum - pageIndex)">尾页</a></li>
+    <li><span>共<span style="color:#fd947f" id="sum">343</span>页</span></li>
+</ul>
+<br />
+<script>
+    window.onload = function () {
+        initData();
+    }
+    var pageIndex = 0, pageSum = 0;
+    var queryText = "";
+    function initData() {
+        var text = decodeURIComponent(getUrlVar("queryText"));
+
+        if (text !== 'undefined') {
+            queryText = text;
+            $("#queryText").val(decodeURIComponent(text));
+        }
+        goPage(0);
+    }
+    function goPage(num) {
+        pageIndex += num;
+        $.getJSON(baseUrl + "AllCount/QueryMerchants", { pageIndex: pageIndex, merchantName: queryText }, function (data, status) {
+            var container = $("#merchantListContainer");
+            container.html("");
+            setPageFooter(data.JsonData);
+            $.each(data.JsonData.PageData, function (i, item) {
+                var row = $("#merchantListItem").clone();
+                row.find("#m_name").html(item.Merchant.MerchatName);
+                row.find("#m_num").html(item.AppCount);
+                row.find("#m_date").html(item.Merchant.CreateTime);
+                row.find("#m_link").attr("href", baseUrl + "AllCount/MiniApps?merchantID=" + item.Merchant.uid + "&merchantName=" + encodeURIComponent(item.Merchant.MerchatName));
+                row.appendTo(container);
+            });
+        });
+    }
+    function setPageFooter(JsonData) {
+        $("#pageNumber").val(pageIndex + 1);
+        pageSum = JsonData.PageSum;
+        $("#sum").html(pageSum);
+        var prePage = $("#prePage");
+        var nextPage = $("#nextPage");
+        if (pageIndex == 0) {
+            prePage.addClass("disabled");
+            prePage.find("a").removeAttr("onclick");
+        } else {
+            prePage.removeClass("disabled");
+            prePage.find("a").attr("onclick", " goPage(-1)");
+        }
+
+        if (pageIndex == pageSum) {
+            nextPage.addClass("disabled");
+            nextPage.find("a").removeAttr("onclick");
+        } else {
+            nextPage.removeClass("disabled");
+            nextPage.find("a").attr("onclick", " goPage(1)");
+        }
+    }
+    function goApps(merchantID) {
+
+
+    }
+    function goPageNum(obj) {
+
+        if (event.keyCode == 13) {
+            var num = parseInt($(obj).val());
+            num--;
+            if (num >= 0 && num < pageSum) {
+                num -= pageIndex;
+                goPage(num);
+            }
+        }
+
+    }
+</script>

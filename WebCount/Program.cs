@@ -14,6 +14,10 @@ namespace WebCount
     {
         public static void Main(string[] args)
         {
+//#if (!DEBUG)
+//            MerchantsRefreshService.StartRefresh();
+//            //WeChatCountDataRefreshService.StartRefresh();
+//#endif
             BuildWebHost(args).Run();
         }
 

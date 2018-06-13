@@ -1,0 +1,20 @@
+﻿.blockCount {
+    background-color: #ffffff;
+    padding: 0 25px;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+.blockCountTop {
+    padding: 20px 25px 0 25px;
+}
+
+.textWhite {
+    color: white;
+}
+
+.textSizeTitle {
+    font-size: 22px;
+}

@@ -1,0 +1,96 @@
+﻿@using WebCommon;
+@{
+    Layout = "_NoFooterLayout";
+    ViewConst.SetRoutType(ViewData, RoutType.商户统计);
+
+}
+<br />
+<br />
+<br />
+<h1>商户列表</h1>
+<hr />
+<br />
+<div id="container" class="row">
+
+
+</div>
+
+<ul class="pager">
+    <li><a href="#" onclick="goPage(-pageIndex)">首页</a></li>
+    <li id="prePage"><a href="#" onclick="goPage(-1)">&larr; 上一页</a></li>
+    <li><input type="number" id="pageNumber" class="form-control" readonly style="width:80px;display:inline;text-align:center;" /></li>
+    <li id="nextPage"><a href="#" onclick="goPage(1)">下一页 &rarr;</a></li>
+    <li><a href="#" onclick="goPage(pageSum - pageIndex)">尾页</a></li>
+    <li><span id="sum"></span></li>
+</ul>
+
+
+
+<div class="hidden">
+    <input id="merchantName" value='@ViewData["merchantName"]' />
+    <div id="merchantItem" style="margin-bottom:20px;" class=" col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <a class="btn btn-info">--</a>
+    </div>
+</div>
+<script>
+    var b_iframe = window.parent.parent.document.getElementById("myiframe");
+    function changeSize() {
+        var size = $(b_iframe).contents().find("body").height() + 60;
+        $(b_iframe).height(size);
+    }
+
+    window.onload = function () {
+        initData();
+    }
+    var pageIndex = 0, pageSum = 0;
+    var queryText = "";
+    function initData() {
+        var text = $("#merchantName").val();
+        pageIndex = 0;
+        queryText = text;
+        goPage(0);
+    }
+    function goPage(num) {
+        pageIndex += num;
+        $.getJSON(baseUrl + "AllCount/QueryMerchants", { pageIndex: pageIndex, merchantName: queryText }, function (data, status) {
+            var container = $("#container");
+            container.html("");
+            setPageFooter(data.JsonData);
+            $.each(data.JsonData.PageData, function (i, item) {
+                var row = $("#merchantItem").clone();
+                var a = row.find("a");
+                a.html(item.Merchant.MerchatName + "&nbsp;&nbsp;&nbsp;&nbsp;小程序：" + item.AppCount);
+                a.attr("target", "_blank");
+                a.attr("href", baseUrl + "?merchantID=" + item.Merchant.uid + "&merchantName=" + item.Merchant.MerchatName);
+                row.appendTo(container);
+            });
+            changeSize();
+        });
+    }
+    function setPageFooter(JsonData) {
+        $("#pageNumber").val(pageIndex + 1);
+        pageSum = JsonData.PageSum;
+        $("#sum").html("共" + (pageSum + 1) + "页");
+        var prePage = $("#prePage");
+        var nextPage = $("#nextPage");
+        if (pageIndex == 0) {
+            prePage.addClass("disabled");
+            prePage.find("a").removeAttr("onclick");
+        } else {
+            prePage.removeClass("disabled");
+            prePage.find("a").attr("onclick", " goPage(-1)");
+        }
+
+        if (pageIndex == pageSum) {
+            nextPage.addClass("disabled");
+            nextPage.find("a").removeAttr("onclick");
+        } else {
+            nextPage.removeClass("disabled");
+            nextPage.find("a").attr("onclick", " goPage(1)");
+        }
+    }
+    function goApps(merchantID) {
+
+
+    }
+</script>

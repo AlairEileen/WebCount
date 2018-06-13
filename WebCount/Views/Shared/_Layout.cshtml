@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using We7Tools.Extend;
+@using WebCommon;
+@{
+    string title = "小程序统计";
+
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebCount</title>
+    <title>@ViewData["Title"] - @title</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -17,31 +23,48 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <script>
+        var baseUrl = "@Context.Request.PathBase/";
+    </script>
+    <nav class='navbar navbar-inverse navbar-fixed-top @(ViewConst.CheckRout(ViewData,RoutType.登录)||ViewConst.CheckRout(ViewData,RoutType.错误)?"hidden":"")'>
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar"><img src="~/images/count_icon.jpg" /></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebCount</a>
+                <span class="icon-bar"><img src="/images/count_icon.jpg" /></span>
+                <a asp-area="" asp-controller="AllCount" asp-action="Index" class="navbar-brand">@title</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
+                @*<ul class="nav navbar-nav">
+            <li class='@(ViewConst.CheckRout(ViewData,RoutType.首页)?"active":"")'><a asp-area="" asp-controller="Home" asp-action="Index">@RoutType.首页.ToString()</a></li>
+            <li class='@(ViewConst.CheckRout(ViewData,RoutType.小程序录入)?"active":"")'><a asp-area="" asp-controller="Home" asp-action="MiniAppRecord">@RoutType.小程序录入.ToString()</a></li>
+            <li class='@(ViewConst.CheckRout(ViewData,RoutType.全部概况统计)?"active":"")'><a asp-area="" asp-controller="AllCount" asp-action="Index">@RoutType.全部概况统计.ToString()</a></li>
+            <li class='@(ViewConst.CheckRout(ViewData,RoutType.详细统计)?"active":"")'><a asp-area="" asp-controller="AllCount" asp-action="DetailCounts">@RoutType.详细统计.ToString()</a></li>
+
+
+        </ul>*@
+                <div class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="用户名/小程序名">
+                    </div>
+                    <a class="btn btn-info">搜用户</a>
+                    <a class="btn btn-primary">搜小程序</a>
+                </div>
+             
+
             </div>
+
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - WebCount</p>
+            <p>&copy; 2018 - @title</p>
         </footer>
     </div>
 
@@ -64,6 +87,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/htmls/offcanvas/offcanvas.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

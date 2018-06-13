@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Tools.Response.Json
         /// <param name="jsonObject">要序列化的JsonResponse</param>
         /// <param name="serializerSettings">json设置</param>
         /// <returns>jsonResult</returns>
-        public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccess(this Microsoft.AspNetCore.Mvc.Controller controller, JsonResponse jsonObject, JsonSerializerSettings serializerSettings = null)
+        public static JsonResult JsonSuccess(this Controller controller, JsonResponse jsonObject, JsonSerializerSettings serializerSettings = null)
         {
             jsonObject.StatusCode = ResponseStatus.请求成功;
             jsonObject.Message = ResponseStatus.请求成功.ToString();
@@ -34,7 +35,7 @@ namespace Tools.Response.Json
         /// <param name="jsonObject">要序列化的JsonResponse</param>
         /// <param name="limitParams">要显示的参数数组</param>
         /// <returns>jsonResult</returns>
-        public static Microsoft.AspNetCore.Mvc.JsonResult JsonSuccessWithLimit(this Microsoft.AspNetCore.Mvc.Controller controller, JsonResponse jsonObject, string[] limitParams = null)
+        public static JsonResult JsonSuccessWithLimit(this Controller controller, JsonResponse jsonObject, string[] limitParams = null)
         {
             JsonSerializerSettings settings;
             if (limitParams == null)
